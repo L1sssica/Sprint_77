@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+Test set: LoginCourierTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 181.691 s <<< FAILURE! - in LoginCourierTest
+testCourierCanLoginWithValidCredentials(LoginCourierTest)  Time elapsed: 60.24 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <504>.
+
+	at LoginCourierTest.testCourierCanLoginWithValidCredentials(LoginCourierTest.java:54)
+
+testSuccessfulLoginReturnsId(LoginCourierTest)  Time elapsed: 60.176 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <504>.
+
+	at LoginCourierTest.testSuccessfulLoginReturnsId(LoginCourierTest.java:147)
+
+testLoginWithMissingFieldReturnsError(LoginCourierTest)  Time elapsed: 60.244 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <400> but was <504>.
+
+	at LoginCourierTest.testLoginWithMissingFieldReturnsError(LoginCourierTest.java:114)
+
