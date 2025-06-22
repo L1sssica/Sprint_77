@@ -23,7 +23,7 @@ public class TestDataFactory {
 
     public static LoginCourier getStandardAuthCredentials() {
         if (standardAuthCredentials == null) {
-            standardAuthCredentials = new LoginCourier (STANDARD_USERNAME, STANDARD_PASS);
+            standardAuthCredentials = new LoginCourier(STANDARD_USERNAME, STANDARD_PASS);
         }
         return standardAuthCredentials;
     }
@@ -61,7 +61,7 @@ public class TestDataFactory {
     }
 
 
-     //Создаем новый заказ без указания цвета
+    //Создаем новый заказ без указания цвета
     public static CreatingOrder createColorlessOrder() {
         return createNewOrder(null);
     }

@@ -1,4 +1,4 @@
-import ApiList.ApiCourier;
+import api.list.ApiCourier;
 import io.restassured.response.Response;
 import org.example.CreatingCourier;
 import org.example.TestDataFactory;
@@ -12,10 +12,14 @@ import static org.hamcrest.Matchers.*;
 public class CourierTest {
     private CreatingCourier validCourier;
     private String registeredCourierId;
+    private String testLogin;
+    private String testPassword;
 
     @Before
     public void initializeTestData() {
         validCourier = TestDataFactory.getStandardDeliveryPerson();
+        testLogin = validCourier.getLogin();
+        testPassword = validCourier.getPassword();
     }
 
     @Test
@@ -26,19 +30,13 @@ public class CourierTest {
                 .assertThat()
                 .statusCode(201)
                 .body("ok", is(true));
-
-        registeredCourierId = fetchCourierId(validCourier.getLogin(), validCourier.getPassword());
     }
 
     @Test
     public void whenRegisterDuplicateCourier_thenConflict() {
-        // Первичная регистрация
         ApiCourier.registerCourier(validCourier);
-        registeredCourierId = fetchCourierId(validCourier.getLogin(), validCourier.getPassword());
 
-        // Попытка дублирования
         Response duplicateResponse = ApiCourier.registerCourier(validCourier);
-
         duplicateResponse.then()
                 .assertThat()
                 .statusCode(409)
@@ -51,11 +49,10 @@ public class CourierTest {
         invalidCourier.setFirstName("Только имя");
 
         Response response = ApiCourier.registerCourier(invalidCourier);
-
         response.then()
                 .assertThat()
                 .statusCode(400)
-                .body("message", notNullValue());
+                .body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
 
     @Test
@@ -65,7 +62,6 @@ public class CourierTest {
         noPasswordCourier.setFirstName("Имя без пароля");
 
         Response response = ApiCourier.registerCourier(noPasswordCourier);
-
         response.then()
                 .assertThat()
                 .statusCode(400)
@@ -79,19 +75,24 @@ public class CourierTest {
         namelessCourier.setPassword("secure123");
 
         Response response = ApiCourier.registerCourier(namelessCourier);
-
         response.then()
                 .assertThat()
                 .statusCode(201)
                 .body("ok", is(true));
 
-        registeredCourierId = fetchCourierId(namelessCourier.getLogin(), namelessCourier.getPassword());
+        testLogin = namelessCourier.getLogin();
+        testPassword = namelessCourier.getPassword();
     }
 
     @After
     public void cleanup() {
-        if (registeredCourierId != null) {
-            removeTestCourier(registeredCourierId);
+        try {
+            registeredCourierId = fetchCourierId(testLogin, testPassword);
+            if (registeredCourierId != null) {
+                removeTestCourier(registeredCourierId);
+            }
+        } catch (Exception e) {
+            System.out.println("Ошибка при очистке тестовых данных: " + e.getMessage());
         }
     }
 

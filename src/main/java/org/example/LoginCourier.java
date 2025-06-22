@@ -4,9 +4,12 @@ public class LoginCourier {
     private String login;
     private String password;
 
-    public LoginCourier(String standardUsername, String standardPass) {
+    public LoginCourier(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
+    // Геттеры и сеттеры
     public String getLogin() {
         return login;
     }

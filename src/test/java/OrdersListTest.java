@@ -1,4 +1,4 @@
-import ApiList.ApiOrder;
+import api.list.ApiOrder;
 import io.restassured.response.Response;
 import org.example.CreatingOrder;
 import org.example.TestDataFactory;
